@@ -19,8 +19,9 @@ ProjectExplorer::BuildStepConfigWidget *NimCompilerCleanStep::createConfigWidget
     return new NimCompilerCleanStepConfigWidget(this);
 }
 
-bool NimCompilerCleanStep::init()
+bool NimCompilerCleanStep::init(QList<const BuildStep *> &earlierSteps)
 {
+    Q_UNUSED(earlierSteps)
     Utils::FileName buildDir = buildConfiguration()->buildDirectory();
     bool result = buildDir.exists();
     if (result)

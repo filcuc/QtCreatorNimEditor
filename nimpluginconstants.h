@@ -16,6 +16,7 @@ const char C_NIM_ICON_PATH[] = ":/nim.png";
 const char C_NIM_MIMETYPE[] = "text/x-nim";
 const char C_NIM_MIME_ICON[] = "text-x-nim";
 const char C_NIM_PROJECT_MIMETYPE[] = "text/x-nim-project";
+const char C_NIM_PROJECT_ID[] = "NimPlugin.NimProject";
 
 } // namespace Constants
 } // namespace NimEditor

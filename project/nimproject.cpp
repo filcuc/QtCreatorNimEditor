@@ -20,9 +20,11 @@ const int MIN_TIME_BETWEEN_PROJECT_SCANS = 4500;
 
 NimProject::NimProject(NimProjectManager *projectManager, const QString &fileName)
     : m_projectManager(projectManager)
-    , m_document(new TextEditor::TextDocument)
 {
-    m_document->setFilePath(Utils::FileName::fromString(fileName));
+    TextEditor::TextDocument * document = new TextEditor::TextDocument;
+    document->setFilePath(Utils::FileName::fromString(fileName));
+    setDocument(document);
+
     m_projectDir = QFileInfo(fileName).dir();
     m_rootNode = new NimProjectNode(Utils::FileName::fromString(m_projectDir.absolutePath()));
     m_rootNode->setDisplayName(m_projectDir.dirName());
@@ -38,11 +40,6 @@ NimProject::NimProject(NimProjectManager *projectManager, const QString &fileNam
 QString NimProject::displayName() const
 {
     return m_projectDir.dirName();
-}
-
-Core::IDocument *NimProject::document() const
-{
-    return m_document;
 }
 
 ProjectExplorer::IProjectManager *NimProject::projectManager() const
@@ -144,7 +141,7 @@ void NimProject::removeNodes(const QSet<QString> &nodes)
         FolderNode *folder = findFolderFor(path);
 
         for (FileNode *fileNode : folder->fileNodes()) {
-            if (fileNode->path().toString() == node) {
+            if (fileNode->filePath().toString() == node) {
                 folder->removeFileNodes({fileNode});
                 break;
             }
@@ -206,7 +203,7 @@ Utils::FileNameList NimProject::nimFiles() const
         FolderNode* folder = folders.takeFirst();
         for (FileNode* file : folder->fileNodes()) {
             if (file->displayName().endsWith(QLatin1String(".nim")))
-                result.append(file->path());
+                result.append(file->filePath());
         }
         folders.append(folder->subFolderNodes());
     }

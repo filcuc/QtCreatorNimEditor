@@ -19,7 +19,7 @@ NimImportProjectWizardFactory::NimImportProjectWizardFactory()
                        ProjectExplorer::Constants::IMPORT_WIZARD_CATEGORY_DISPLAY));
     setDisplayName(tr("Import Existing Nim Project"));
     setDescription(tr("Imports existing Nim projects."));
-    setWizardKind(Core::IWizardFactory::ProjectWizard);
+    setSupportedProjectTypes({ Constants::C_NIM_PROJECT_ID });
     setIcon(QIcon(QLatin1String(Constants::C_NIM_ICON_PATH)));
 }
 

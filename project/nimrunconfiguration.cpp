@@ -11,10 +11,12 @@
 namespace NimPlugin {
 
 NimRunConfiguration::NimRunConfiguration(ProjectExplorer::Target* parent)
-    : ProjectExplorer::LocalApplicationRunConfiguration(parent, Core::Id("Nim Run Configuration"))
+    : RunConfiguration(parent, Core::Id("Nim Run Configuration"))
     , m_runMode(ProjectExplorer::ApplicationLauncher::Gui)
 {
-    addExtraAspect(new ProjectExplorer::LocalEnvironmentAspect(this));
+    using namespace ProjectExplorer;
+    addExtraAspect(new LocalEnvironmentAspect(this, LocalEnvironmentAspect::BaseEnvironmentModifier()));
+
     setDisplayName(QStringLiteral("Nim Run Configuration"));
     setDefaultDisplayName(QStringLiteral("Nim Run Configuration"));
     connectTargetSignals();
@@ -25,6 +27,17 @@ NimRunConfiguration::NimRunConfiguration(ProjectExplorer::Target* parent)
 QWidget *NimRunConfiguration::createConfigurationWidget()
 {
     return new NimRunConfigurationWidget(this);
+}
+
+ProjectExplorer::Runnable NimRunConfiguration::runnable() const
+{
+    ProjectExplorer::StandardRunnable r;
+    r.executable = m_executable;
+    r.commandLineArguments = m_commandLineArguments;
+    r.workingDirectory = m_workingDirectory;
+    r.environment = extraAspect<ProjectExplorer::LocalEnvironmentAspect>()->environment();
+    r.runMode = m_runMode;
+    return r;
 }
 
 QString NimRunConfiguration::executable() const
@@ -56,7 +69,7 @@ QString NimRunConfiguration::commandLineArguments() const
 
 QVariantMap NimRunConfiguration::toMap() const
 {
-    auto result = LocalApplicationRunConfiguration::toMap();
+    auto result = RunConfiguration::toMap();
     result[QStringLiteral("NimPlugin_Executable")] = m_executable;
     result[QStringLiteral("NimPlugin_WorkingDirectory")] = m_workingDirectory;
     result[QStringLiteral("NimPlugin_CommandLineArguments")] = m_commandLineArguments;
@@ -67,7 +80,7 @@ QVariantMap NimRunConfiguration::toMap() const
 bool NimRunConfiguration::fromMap(const QVariantMap &map)
 {
     using namespace ProjectExplorer;
-    bool result = LocalApplicationRunConfiguration::fromMap(map);
+    bool result = RunConfiguration::fromMap(map);
     if (!result)
         return result;
     m_executable = map[QStringLiteral("NimPlugin_Executable")].toString();

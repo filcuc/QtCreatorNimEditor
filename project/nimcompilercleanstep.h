@@ -19,7 +19,7 @@ public:
     ProjectExplorer::BuildStepConfigWidget *createConfigWidget() Q_DECL_OVERRIDE;
 
     /// Initialize
-    bool init() Q_DECL_OVERRIDE;
+    bool init(QList<const BuildStep *> &earlierSteps) Q_DECL_OVERRIDE;
 
     /// Run the clean step
     void run(QFutureInterface<bool> &fi) Q_DECL_OVERRIDE;
