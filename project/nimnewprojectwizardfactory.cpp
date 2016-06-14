@@ -19,7 +19,7 @@ NimNewProjectWizardFactory::NimNewProjectWizardFactory()
                                                    ProjectExplorer::Constants::QT_PROJECT_WIZARD_CATEGORY_DISPLAY));
     setDisplayName(tr("Create a new Nim Project"));
     setDescription(tr("Creates a new Nim project."));
-    setWizardKind(Core::IWizardFactory::ProjectWizard);
+    setSupportedProjectTypes({ Constants::C_NIM_PROJECT_ID });
     setIcon(QIcon(QLatin1String(Constants::C_NIM_ICON_PATH)));
 }
 

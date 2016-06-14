@@ -18,7 +18,6 @@ NimNewFileWizardFactory::NimNewFileWizardFactory()
     setDisplayCategory(QLatin1String("Nim"));
     setDisplayName(tr("Nim source file"));
     setDescription(tr("Nim source file"));
-    setWizardKind(Core::IWizardFactory::FileWizard);
     setIcon(QIcon(QLatin1String(Constants::C_NIM_ICON_PATH)));
 }
 
